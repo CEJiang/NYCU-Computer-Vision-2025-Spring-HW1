@@ -1,0 +1,19 @@
+# gitignore
+
+# ignore
+.DS_Store
+
+# ignore dataset folder
+data/
+
+# ignore model folder
+saved_models
+
+# vscode
+.vscode
+__pycache__/
+
+# temp 
+main.py
+test.py
+train.py
