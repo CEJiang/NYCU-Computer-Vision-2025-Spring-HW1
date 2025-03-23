@@ -13,7 +13,8 @@ saved_models
 .vscode
 __pycache__/
 
-# temp 
-main.py
-test.py
-train.py
+# docx, zip
+*.zip
+*.docx
+*.png
+*.txt
