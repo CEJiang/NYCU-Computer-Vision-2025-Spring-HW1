@@ -50,7 +50,7 @@ NYCU-Computer-Vision-2025-Spring-HW1
     ```
     Example
     ```
-    python main.py ./dataset --epochs 100 --batch_size 64 --learning_rate 5e-5 --decay 1e-4 --save saved_models
+    python main.py ./data --epochs 100 --batch_size 64 --learning_rate 5e-5 --decay 1e-4 --save saved_models
     ```
     2. Test Model
     ```
