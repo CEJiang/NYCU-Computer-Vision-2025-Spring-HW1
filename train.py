@@ -19,9 +19,9 @@ class DatasetLoader:
             'train': transforms.Compose([
                 transforms.RandomResizedCrop(224),
                 transforms.RandomAffine(
-                    degrees=30, translate=(
-                        0.15, 0.15), scale=(
-                        0.7, 1.2)),
+                    degrees=30,
+                    translate=(0.15, 0.15),
+                    scale=(0.7, 1.2)),
                 transforms.RandomHorizontalFlip(),
                 transforms.ColorJitter(
                     brightness=0.25,
@@ -29,6 +29,9 @@ class DatasetLoader:
                     saturation=0.25,
                     hue=0.125),
                 transforms.RandomGrayscale(p=0.1),
+                transforms.RandomApply([
+                    transforms.GaussianBlur(kernel_size=3, sigma=(0.1, 1.0))
+                ], p=0.3),
                 transforms.ToTensor(),
                 transforms.RandomErasing(p=0.2),
                 transforms.Normalize([0.485, 0.456, 0.406],
@@ -171,7 +174,9 @@ class Trainer:
 
         if val_acc >= self.best_acc:
             self.best_acc = val_acc
-            best_model_path = os.path.join(self.save_path, 'best_model.pth')
+            val_acc_int = int(val_acc * 100)
+            best_model_path = os.path.join(
+                self.save_path, f'best_model_{epoch}_{val_acc_int}.pth')
             torch.save(self.model.state_dict(), best_model_path)
             print(f"New best model saved with accuracy: {self.best_acc:.2f}%")
 
@@ -179,7 +184,7 @@ class Trainer:
                 ema.state_dict(),
                 os.path.join(
                     self.save_path,
-                    'ema_state.pth'))
+                    f'ema_state_{epoch}_{val_acc_int}.pth'))
             print("EMA state saved.")
 
 

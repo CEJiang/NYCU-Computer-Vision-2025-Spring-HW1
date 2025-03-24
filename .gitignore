@@ -13,6 +13,9 @@ saved_models
 .vscode
 __pycache__/
 
+# folder
+Model*/
+
 # docx, zip
 *.zip
 *.docx

@@ -20,7 +20,7 @@ def build_model(num_classes, device):
         nn.Linear(net.fc.in_features, 2048),
         nn.BatchNorm1d(2048),
         nn.ReLU(),
-        nn.Dropout(0.5),
+        nn.Dropout(0.4),
 
 
         nn.Linear(2048, 1024),
@@ -31,7 +31,7 @@ def build_model(num_classes, device):
         nn.Linear(1024, 1024),
         nn.BatchNorm1d(1024),
         nn.ReLU(),
-        nn.Dropout(0.3),
+        nn.Dropout(0.2),
 
         nn.Linear(1024, num_classes)
     )
@@ -63,7 +63,7 @@ def main():
                         help='Learning rate.')  # 0.00005
     parser.add_argument('--decay', '-d',
                         type=float,
-                        default=5e-3,
+                        default=3e-3,
                         help='Weight decay (L2 penalty).')  # 0.002
     parser.add_argument('--eta_min', '-em',
                         type=float,

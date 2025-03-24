@@ -7,7 +7,6 @@ import torchvision.transforms as transforms
 from torchvision.datasets.folder import default_loader
 
 
-
 class TestDataset(Dataset):
     def __init__(self, image_files, tta_times=4):
         self.image_files = image_files
@@ -22,6 +21,7 @@ class TestDataset(Dataset):
                 transforms.Normalize([0.485, 0.456, 0.406],
                                      [0.229, 0.224, 0.225])
             ]),
+
             transforms.Compose([
                 transforms.Resize(256),
                 transforms.CenterCrop(224),
@@ -30,18 +30,22 @@ class TestDataset(Dataset):
                 transforms.Normalize([0.485, 0.456, 0.406],
                                      [0.229, 0.224, 0.225])
             ]),
+
             transforms.Compose([
                 transforms.Resize(256),
                 transforms.CenterCrop(224),
-                transforms.ColorJitter(brightness=0.2, contrast=0.2),
+                transforms.ColorJitter(brightness=0.2, contrast=0.2,
+                                       saturation=0.2, hue=0.05),
                 transforms.ToTensor(),
                 transforms.Normalize([0.485, 0.456, 0.406],
                                      [0.229, 0.224, 0.225])
             ]),
+
             transforms.Compose([
                 transforms.Resize(256),
                 transforms.CenterCrop(224),
-                transforms.RandomRotation(degrees=15),
+                transforms.RandomRotation(degrees=10),
+                transforms.GaussianBlur(kernel_size=3, sigma=(0.1, 0.8)),
                 transforms.ToTensor(),
                 transforms.Normalize([0.485, 0.456, 0.406],
                                      [0.229, 0.224, 0.225])
@@ -56,10 +60,8 @@ class TestDataset(Dataset):
         image = self.loader(path)
         file_name = os.path.splitext(os.path.basename(path))[0]
 
-
         images = [tf(image) for tf in self.tta_transforms[:self.tta_times]]
         return torch.stack(images), file_name
-
 
 
 def load_test_data(data_path, batch_size, tta_times=4):
@@ -73,7 +75,6 @@ def load_test_data(data_path, batch_size, tta_times=4):
         prefetch_factor=2
     )
     return test_loader
-
 
 
 def inference_and_save(model, device, test_loader,
@@ -104,7 +105,6 @@ def inference_and_save(model, device, test_loader,
     df = pd.DataFrame(predictions, columns=["image_name", "pred_label"])
     df.to_csv(output_csv, index=False)
     print(f"CSV file saved to {output_csv}")
-
 
 
 def test_model(device, net, train_loader, args):
