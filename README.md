@@ -30,7 +30,7 @@ NYCU-Computer-Vision-2025-Spring-HW1
 ├── utils
 │   ├── __init__.py
 │   ├── early_stopping.py
-│   ├──  losses.py
+│   ├── losses.py
 │   .
 │   .
 │   .
