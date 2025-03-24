@@ -70,6 +70,6 @@ NYCU-Computer-Vision-2025-Spring-HW1
 | Optimizer        | AdamW                                               |
 | Eta_min          | 0.000001                                            |
 | T_max            | 50                                                  |
-| Scheduler        | CosineAnnealingLR (Tmax=50, eta_min=0.00001)        |
+| Scheduler        | `CosineAnnealingLR`                                 |
 | label_smoothing  | 0.05                                                |
 | Criterion        | `CrossEntropyLoss` -> `SmoothFocal` -> `Focal`      |
