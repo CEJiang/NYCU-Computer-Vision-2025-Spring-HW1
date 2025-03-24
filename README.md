@@ -46,7 +46,7 @@ NYCU-Computer-Vision-2025-Spring-HW1
 4. Run for Train
     1. Train Model 
     ```
-    python main.py DATAPATH [--epoch EPOCH] [--batch_size BATCH_SIZE] [--learning_rate LEARNING_RATE] [--decay DECAY] [-eta_min ETA_MIN] [--save SAVE_FOLDER] [--mode train]
+    python main.py DATAPATH [--epochs EPOCH] [--batch_size BATCH_SIZE] [--learning_rate LEARNING_RATE] [--decay DECAY] [--eta_min ETA_MIN] [--save SAVE_FOLDER] [--mode train]
     ```
     Example
     ```
