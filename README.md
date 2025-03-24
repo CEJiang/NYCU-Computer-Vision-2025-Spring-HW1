@@ -58,3 +58,15 @@ NYCU-Computer-Vision-2025-Spring-HW1
     ```
 
 ## Performance snapshot
+### Training Parameter Configuration
+
+| Parameter         | Value                                              |
+|------------------|----------------------------------------------------|
+| Model            | ResNeXt-101                                        |
+| Pretrained Weight| IMAGENET1K_V2                                      |
+| Epochs           | 100                                                |
+| Batch Size       | 64                                                 |
+| Learning Rate    | 0.00005                                            |
+| Optimizer        | AdamW                                              |
+| Scheduler        | CosineAnnealingLR (Tmax=50, eta_min=0.00001)       |
+| Criterion        | `nn.CrossEntropyLoss()`                            |
