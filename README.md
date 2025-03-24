@@ -60,7 +60,7 @@ NYCU-Computer-Vision-2025-Spring-HW1
 ## Performance snapshot
 ### Training Parameter Configuration
 
-| Parameter         | Value                                              |
+| Parameter        | Value                                               |
 |------------------|-----------------------------------------------------|
 | Model            | ResNeXt-101                                         |
 | Pretrained Weight| IMAGENET1K_V2                                       |
@@ -73,3 +73,9 @@ NYCU-Computer-Vision-2025-Spring-HW1
 | Scheduler        | `CosineAnnealingLR`                                 |
 | label_smoothing  | 0.05                                                |
 | Criterion        | `CrossEntropyLoss` -> `SmoothFocal` -> `Focal`      |
+
+### Performance
+|                  | Accuracy(%)                                         |
+|------------------|-----------------------------------------------------|
+| Validation       | 94                                                  |
+| Public Test      | 96                                                  |
