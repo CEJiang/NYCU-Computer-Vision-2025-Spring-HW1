@@ -222,9 +222,8 @@ class Trainer:
 
         if val_acc >= self.best_acc:
             self.best_acc = val_acc
-            val_acc_int = int(val_acc * 100)
             best_model_path = os.path.join(
-                self.save_path, f'best_model_{epoch}_{val_acc_int}.pth')
+                self.save_path, f'best_model.pth')
             torch.save(self.model.state_dict(), best_model_path)
             print(f"New best model saved with accuracy: {self.best_acc:.2f}%")
 
@@ -232,7 +231,7 @@ class Trainer:
                 ema.state_dict(),
                 os.path.join(
                     self.save_path,
-                    f'ema_state_{epoch}_{val_acc_int}.pth'))
+                    f'ema_state.pth'))
             print("EMA state saved.")
 
 
