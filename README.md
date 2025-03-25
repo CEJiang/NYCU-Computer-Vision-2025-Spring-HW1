@@ -10,6 +10,7 @@ To tackle challenges such as visual similarity between species, we introduce sev
 - **Focal Loss** to emphasize hard-to-classify examples and mitigate the effects of class imbalance.
 - **Exponential Moving Average (EMA)** of model weights to improve validation stability and final performance.
 - **Test-Time Augmentation (TTA)** to further boost prediction accuracy by aggregating results from multiple augmented views during inference.
+
 Our pipeline includes class-balanced loss weighting, cosine learning rate scheduling, and detailed monitoring through training curves and confusion matrices. The final model achieves over 92–95% validation accuracy, with smooth convergence and minimal overfitting.
 
 ## How to install
