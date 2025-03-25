@@ -68,14 +68,18 @@ NYCU-Computer-Vision-2025-Spring-HW1
 | Batch Size       | 64                                                  |
 | Epochs           | 100                                                 |
 | Optimizer        | AdamW                                               |
-| Eta_min          | 0.000001                                            |
+| Eta_min          | 0.00001                                             |
 | T_max            | 50                                                  |
 | Scheduler        | `CosineAnnealingLR`                                 |
 | label_smoothing  | 0.05                                                |
 | Criterion        | `CrossEntropyLoss` -> `SmoothFocal` -> `Focal`      |
 
+### Training Curve
+![Image](https://github.com/CEJiang/NYCU-Computer-Vision-2025-Spring-HW1/blob/main/Image/train_curve.png)
+### Confusion Matrix
+![Image](https://github.com/CEJiang/NYCU-Computer-Vision-2025-Spring-HW1/blob/main/Image/confusion_matrix.png)
 ### Performance
 |                  | Accuracy(%)                                         |
 |------------------|-----------------------------------------------------|
-| Validation       | 94                                                  |
+| Validation       | 95                                                  |
 | Public Test      | 96                                                  |
