@@ -107,7 +107,7 @@ def main():
         lr=args.learning_rate,
         weight_decay=args.decay)
     scheduler = lr_scheduler.CosineAnnealingLR(
-        optimizer, T_max=80, eta_min=args.eta_min)
+        optimizer, T_max=50, eta_min=args.eta_min)
     criterion = nn.CrossEntropyLoss(label_smoothing=0.05)
 
     if args.mode == 'train':
