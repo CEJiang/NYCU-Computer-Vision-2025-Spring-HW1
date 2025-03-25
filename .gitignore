@@ -19,5 +19,6 @@ Model*/
 # docx, zip
 *.zip
 *.docx
-*.png
+*.png 
+!Image/*.png
 *.txt
