@@ -3,6 +3,15 @@
 - Name: 江仲恩
 
 ## Introduction
+In this assignment, we aim to build a robust image classification model for the dataset provided in HW1. To achieve strong generalization performance, we adopt a transfer learning approach using ResNeXt-101 pretrained on ImageNet, and fine-tune its fully connected layers on the target dataset.
+To tackle challenges such as visual similarity between species, we introduce several techniques :
+- **Strong data augmentations** to enhance model robustness under various lighting conditions, perspectives, and background clutter.
+- **Label smoothing and progressive loss switching** to stabilize training during early epochs.
+- **Focal Loss** to emphasize hard-to-classify examples and mitigate the effects of class imbalance.
+- **Exponential Moving Average (EMA)** of model weights to improve validation stability and final performance.
+- **Test-Time Augmentation (TTA)** to further boost prediction accuracy by aggregating results from multiple augmented views during inference.
+Our pipeline includes class-balanced loss weighting, cosine learning rate scheduling, and detailed monitoring through training curves and confusion matrices.
+The final model achieves over 92–95% validation accuracy, with smooth convergence and minimal overfitting.
 
 ## How to install
 
