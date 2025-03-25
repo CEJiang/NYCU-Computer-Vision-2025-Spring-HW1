@@ -1,17 +1,23 @@
+"""Training pipeline for ResNeXt with data augmentation, Focal Loss, EMA, and scheduler support."""
+
 import os
-import torch
-import torchvision.transforms as transforms
-from torch.utils.data import DataLoader
-from torchvision.datasets import ImageFolder
 import gc
 import numpy as np
+
+import torch
+from torch.utils.data import DataLoader
+from torchvision import transforms
+from torchvision.datasets import ImageFolder
 from torch_ema import ExponentialMovingAverage
 from sklearn.utils.class_weight import compute_class_weight
+
 from utils import plot_confusion_matrix, plot_loss_accuracy, clear_memory
 from utils import SmoothFocalLoss, FocalLoss
 
 
 class DatasetLoader:
+    """Data loader for training and validation datasets with augmentation."""
+
     def __init__(self, data_path, batch_size):
         self.data_path = data_path
         self.batch_size = batch_size
@@ -47,6 +53,15 @@ class DatasetLoader:
         }
 
     def load_data(self):
+        """
+        Loads training and validation datasets using ImageFolder and returns their data loaders.
+
+        Returns:
+            tuple:
+                - DataLoader: Training data loader.
+                - DataLoader: Validation data loader.
+                - int: Number of classes.
+        """
         train_data = ImageFolder(
             os.path.join(
                 self.data_path,
@@ -74,6 +89,8 @@ class DatasetLoader:
 
 
 class Trainer:
+    """Handles model training, validation, checkpointing, and EMA management."""
+
     def __init__(self, model, train_loader, val_loader,
                  optimizer, criterion, device, save_path):
         self.model = model
@@ -88,6 +105,15 @@ class Trainer:
         os.makedirs(save_path, exist_ok=True)
 
     def train(self, epoch):
+        """
+        Performs one epoch of model training.
+
+        Args:
+            epoch (int): Current training epoch number.
+
+        Returns:
+            tuple: Training loss and accuracy for the current epoch.
+        """
         self.model.train()
         gc.collect()
         total_loss, correct, total = 0.0, 0, 0
@@ -119,6 +145,16 @@ class Trainer:
         return train_loss, train_acc
 
     def validate(self, epoch, confusion_matrix_folder):
+        """
+        Evaluates the model on the validation set.
+
+        Args:
+            epoch (int): Current epoch number.
+            confusion_matrix_folder (str): Directory to save the confusion matrix plot.
+
+        Returns:
+            tuple: Validation loss and accuracy.
+        """
         self.model.eval()
         gc.collect()
         correct, total, total_loss = 0, 0, 0.0
@@ -157,6 +193,18 @@ class Trainer:
 
     def save_model(self, epoch, val_acc, train_losses,
                    train_accuracies, val_losses, val_accuracies, ema):
+        """
+        Saves model checkpoint and best-performing model if applicable.
+
+        Args:
+            epoch (int): Current epoch number.
+            val_acc (float): Current validation accuracy.
+            train_losses (list): History of training losses.
+            train_accuracies (list): History of training accuracies.
+            val_losses (list): History of validation losses.
+            val_accuracies (list): History of validation accuracies.
+            ema (ExponentialMovingAverage): EMA object to save.
+        """
         checkpoint_path = os.path.join(self.save_path, 'latest_checkpoint.pth')
         checkpoint = {
             'epoch': epoch + 1,
@@ -190,6 +238,10 @@ class Trainer:
 
 def train_model(device, net, optimizer, train_loader,
                 val_loader, criterion, scheduler, args):
+    """
+    Main training loop.
+    Handles early stopping, EMA, progressive loss switching, and checkpointing.
+    """
     confusion_matrix_folder = "confusion_matrices"
     os.makedirs(confusion_matrix_folder, exist_ok=True)
 
@@ -216,7 +268,10 @@ def train_model(device, net, optimizer, train_loader,
 
     if os.path.exists(checkpoint_path):
         print(f"Loading checkpoint from {checkpoint_path}...")
-        checkpoint = torch.load(checkpoint_path, map_location=device)
+        checkpoint = torch.load(
+            checkpoint_path,
+            map_location=device,
+            weights_only=False)
         net.load_state_dict(checkpoint['model_state_dict'])
         optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
         start_epoch = checkpoint['epoch']

@@ -1,18 +1,24 @@
+"""Main script to train or test the ResNeXt-101 model on a image classification dataset."""
+
 import argparse
-import torch
-import torch.nn as nn
-import torch.backends.cudnn as cudnn
-from torchvision import models
-import torch.optim.lr_scheduler as lr_scheduler
-from train import DatasetLoader, train_model
 from test import test_model
+
+from torch import nn
+from torch.backends import cudnn
+from torch.optim import lr_scheduler
+import torch
+from torchvision import models
+
+from train import DatasetLoader, train_model
 
 
 def count_parameters(model):
+    """Count the number of trainable parameters in the model."""
     return sum(p.numel() for p in model.parameters() if p.requires_grad)
 
 
 def build_model(num_classes, device):
+    """Build the ResNeXt-101 model with a custom fully connected head."""
     # Load model with weights
     weights = models.ResNeXt101_32X8D_Weights.IMAGENET1K_V2
     net = models.resnext101_32x8d(weights=weights)
@@ -43,6 +49,7 @@ def build_model(num_classes, device):
 
 
 def main():
+    """Parse arguments and run the training or testing pipeline."""
     cudnn.benchmark = True
     parser = argparse.ArgumentParser(description='Train ResNeXt '
                                                  'on a custom dataset')
@@ -100,10 +107,10 @@ def main():
         lr=args.learning_rate,
         weight_decay=args.decay)
     scheduler = lr_scheduler.CosineAnnealingLR(
-        optimizer, T_max=50, eta_min=args.eta_min)
+        optimizer, T_max=80, eta_min=args.eta_min)
     criterion = nn.CrossEntropyLoss(label_smoothing=0.05)
 
-    if (args.mode == 'train'):
+    if args.mode == 'train':
         train_model(device=device,
                     net=net,
                     optimizer=optimizer,

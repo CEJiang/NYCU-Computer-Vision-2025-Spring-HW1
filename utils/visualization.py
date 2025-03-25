@@ -1,9 +1,20 @@
+"""visualization.py - Contains utilities for plotting confusion matrix and training curves."""
+
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.metrics import confusion_matrix
 
 
 def plot_confusion_matrix(true_labels, pred_labels, class_names, save_path):
+    """
+    Plot and save the confusion matrix as a heatmap.
+
+    Args:
+        true_labels (list or array): Ground truth labels.
+        pred_labels (list or array): Predicted labels from the model.
+        class_names (list): List of class names.
+        save_path (str): File path to save the plot.
+    """
     cm = confusion_matrix(true_labels, pred_labels)
     plt.figure(figsize=(20, 20))
     ax = sns.heatmap(
@@ -27,10 +38,23 @@ def plot_confusion_matrix(true_labels, pred_labels, class_names, save_path):
     plt.close()
 
 
-def plot_loss_accuracy(train_losses, val_losses, train_accuracies,
-                       val_accuracies, save_fig=True,
-                       output_path="training_curve.png"):
-    fig, ax = plt.subplots(1, 2, figsize=(14, 6))
+def plot_loss_accuracy(train_losses, val_losses,
+                       train_accuracies, val_accuracies,
+                       save_fig=True, output_path="training_curve.png"):
+    """
+    Plot and optionally save training/validation loss and accuracy curves.
+
+    Args:
+        train_losses (list): Training loss per epoch.
+        val_losses (list): Validation loss per epoch.
+        train_accuracies (list): Training accuracy per epoch.
+        val_accuracies (list): Validation accuracy per epoch.
+        save_fig (bool): Whether to save the figure.
+        output_path (str): Path to save the figure if save_fig is True.
+    """
+    _, ax = plt.subplots(1, 2, figsize=(14, 6))
+
+    # Plot loss curve
     ax[0].plot(
         range(
             len(train_losses)),
@@ -49,6 +73,7 @@ def plot_loss_accuracy(train_losses, val_losses, train_accuracies,
     ax[0].legend()
     ax[0].grid()
 
+    # Plot accuracy curve
     ax[1].plot(
         range(
             len(train_accuracies)),
